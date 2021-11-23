@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov 23 21:49:21 2021
+
+@author: rafi
+"""
+
+nomor = []
+nim = []
+nama = []
+
+mahasiswa = open('mahasiswa_gasal_2021.csv','r')
+data = []
+a = 0
+baris = []
+for line in mahasiswa:
+    a += 1
+    baris = line.split(',')
+    if a == 35:
+        break
+    else:
+        if a == 1:
+            nomor.append(baris[0])
+            nim.append(baris[1])
+            nama.append(baris[2])
+        else:
+            nomor.append(int(baris[0]))
+            nim.append(str(baris[1]))
+            nama.append(baris[2])
+nama = [line.strip() for line in nama]
+mahasiswa.close()
+
+
+mahasiswaa = open('mahasiswa_gasal_2021.csv','r')
+data2 = []
+x = 0
+for line in mahasiswaa:
+    data2.append(line)
+    x+=1
+    if x >= 34:
+        break
+    else:
+        pass    
+     
+mahasiswaa.close()
+
+def vnama(b,c):
+    m = (len(b)-1) // 2
+    
+    if b[m] == c:
+        return m
+    
+    l = 0
+    while True:
+        if b[l] == c:
+            return l
+        elif l == m:
+            break
+        else:
+            l += 1
+    
+    l = (len(c)-1)
+    while True:
+        try:
+            if b[l] == c:
+                return l
+            elif l == m:
+                break
+            else:
+                l -= 1
+        except IndexError:
+            return -1
+    return -1
+
+def vnomor(arr, l, r, x):
+ 
+    if r >= l:
+ 
+        mid = l + (r - l) // 2
+
+        if mid == x:
+            return mid
+
+        elif mid > x:
+            return vnomor(arr, l, mid-1, x)
+
+        else:
+            return vnomor(arr, mid + 1, r, x)
+ 
+    else:
+        return -1
+    
+
+opsi = str(input("Cari berdasarkan:\na.Nama\nb.NIM\nc.Nomor Absen\n\n "))
+mahasiswa = str(input('\nPencarian: '))
+if opsi == 'a':
+    sl = vnama(nama,str.upper(mahasiswa))
+    if sl == -1:
+        print('Tidak terdaftar')
+    else:
+        print(data2[sl],'UNIVERSITAS TRISAKTI')
+elif opsi == 'b':
+    sl = vnama(nim,mahasiswa)
+    if sl == -1:
+        print('Tidak terdaftar')
+    else:
+        print(data2[sl],'UNIVERSITAS TRISAKTI')
+elif opsi == 'c':
+    sl = vnomor(nomor,0,len(nomor)-1,int(mahasiswa))
+    if sl == -1:
+        print('Tidak terdaftar')
+    else:
+        print(data2[sl],'UNIVERSITAS TRISAKTI')
